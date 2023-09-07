@@ -9,6 +9,7 @@
 	<ToolCommandName>t</ToolCommandName>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
 	<Authors>soags</Authors>
+	<Version>0.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
