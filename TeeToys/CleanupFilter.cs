@@ -6,6 +6,7 @@ internal class CleanupFilter : ConsoleAppFilter
     {
         // Cleanup the specified directory
         Cleanup(Constants.RootDirPath);
+        Console.WriteLine($"Cleanup completed");
 
         // Recreate the root directory if it doesn't exist
         Directory.CreateDirectory(Constants.RootDirPath);

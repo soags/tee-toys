@@ -42,6 +42,16 @@ It will be opened with the application associated with .txt files.
 
 Example. `C:\tmp\yyyy-MM-dd\yyyy-MM-dd_HHmmss.md`
 
+
+### Archive Old Temporary Folder
+
+```powershell
+t archive [--days <DAYS>]
+```
+
+Move temporary folders older than the specified number of days (\<DAYS>) to `.archive` folder.
+\<DAYS> is default to 30.
+
 ### Cleanup Temporary Folder 
 
 All commands perform a cleanup of the temporary folder before execution.

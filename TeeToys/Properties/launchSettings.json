@@ -2,7 +2,7 @@
   "profiles": {
     "TeeToys": {
       "commandName": "Project",
-      "commandLineArgs": "archive"
+      "commandLineArgs": ""
     }
   }
 }

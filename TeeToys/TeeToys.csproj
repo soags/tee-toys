@@ -10,7 +10,7 @@
 	<ToolCommandName>t</ToolCommandName>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
 	<Authors>soags</Authors>
-	<Version>0.2.0</Version>
+	<Version>0.3.0</Version>
 	<Title>TeeToys</Title>
 	<Description>CLI tools to "I'll work with temporary files for now" experience</Description>
 	<PackageProjectUrl>https://github.com/soags/tee-toys</PackageProjectUrl>

@@ -11,6 +11,7 @@ var app = ConsoleApp.Create(args, config =>
 app.AddRootCommand("Open today directory", () =>
     {
         string todayDirPath = GetOrCreateTodayDirectory();
+        Console.WriteLine($"Created empty directry: {todayDirPath}");
         Process.Start("explorer.exe", todayDirPath);
     });
 
@@ -20,6 +21,7 @@ app.AddCommand("txt", "Open temporary text file",
         string todayDirPath = GetOrCreateTodayDirectory();
         string filePath = Path.Combine(todayDirPath, $"{DateTime.Now:yyyy-MM-dd_HHmmss}.txt");
         File.Create(filePath).Dispose();
+        Console.WriteLine($"Created empty file: {filePath}");
         OpenFile(filePath);
     });
 
@@ -28,6 +30,7 @@ app.AddCommand("md", "Open temporary markdown file",() =>
         string todayDirPath = GetOrCreateTodayDirectory();
         string filePath = Path.Combine(todayDirPath, $"{DateTime.Now:yyyy-MM-dd_HHmmss}.md");
         File.Create(filePath).Dispose();
+        Console.WriteLine($"Created empty file: {filePath}");
         OpenFile(filePath);
     });
 
