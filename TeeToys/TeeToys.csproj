@@ -18,6 +18,7 @@
 	<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<RepositoryUrl>https://github.com/soags/tee-toys</RepositoryUrl>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

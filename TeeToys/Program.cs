@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 using TeeToys;
+using System.Globalization;
 
 var app = ConsoleApp.Create(args, config =>
 {
@@ -12,36 +14,62 @@ app.AddRootCommand("Open today directory", () =>
         Process.Start("explorer.exe", todayDirPath);
     });
 
-app.AddCommand("txt", "Open temporary text file", () =>
+app.AddCommand("txt", "Open temporary text file", 
+    () =>
     {
         string todayDirPath = GetOrCreateTodayDirectory();
-        string filePath = CreateTemporaryTextFile(todayDirPath);
+        string filePath = Path.Combine(todayDirPath, $"{DateTime.Now:yyyy-MM-dd_HHmmss}.txt");
+        File.Create(filePath).Dispose();
         OpenFile(filePath);
     });
 
 app.AddCommand("md", "Open temporary markdown file",() =>
     {
         string todayDirPath = GetOrCreateTodayDirectory();
-        string filePath = CreateTemporaryMarkdownFile(todayDirPath);
+        string filePath = Path.Combine(todayDirPath, $"{DateTime.Now:yyyy-MM-dd_HHmmss}.md");
+        File.Create(filePath).Dispose();
         OpenFile(filePath);
+    });
+
+app.AddCommand("archive", "Archive old temporary folders",
+    ([Option(null, "Number of days to exclude from archiving")] int days = 30) =>
+    {
+        var archiveFromDate = DateTime.Today.AddDays(Math.Max(days, 1) * -1);
+
+        string[] directryEntries = Directory.GetDirectories(Constants.RootDirPath);
+
+        Directory.CreateDirectory(Constants.ArchiveDir);
+
+        foreach (string dir in directryEntries)
+        {
+            // Check if the folder name contains a date.
+            var match = TemporaryFolderDateRegex().Match(dir);
+            if (match.Success)
+            {
+                // Check if the folder date within the archiving period.
+                var folderDate = DateTime.ParseExact(match.Value, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                if (folderDate <= archiveFromDate)
+                {
+                    string dirName = Path.GetFileName(dir)!;
+                    string dest = Path.Combine(Constants.ArchiveDir, dirName);
+
+                    // Skip If folder with the same name already exists in destination.
+                    if (Directory.Exists(dest))
+                    {
+                        Console.WriteLine($"Archive destination already exists: {dest}");
+                        continue;
+                    }
+
+                    // Move to archive destination.
+                    Directory.Move(dir, dest);
+                    Console.WriteLine($"Archived: {dest}");
+                }
+            }
+        }
     });
 
 app.Run();
 
-
-string CreateTemporaryTextFile(string todayDir)
-{
-    string filePath = Path.Combine(todayDir, $"{DateTime.Now:yyyy-MM-dd_HHmmss}.txt");
-    File.Create(filePath).Dispose();
-    return filePath;
-}
-
-string CreateTemporaryMarkdownFile(string todayDir)
-{
-    string filePath = Path.Combine(todayDir, $"{DateTime.Now:yyyy-MM-dd_HHmmss}.md");
-    File.Create(filePath).Dispose();
-    return filePath;
-}
 
 string GetOrCreateTodayDirectory()
 {
@@ -61,4 +89,10 @@ void OpenFile(string filePath)
         }
     };
     p.Start();
+}
+
+partial class Program
+{
+    [GeneratedRegex("\\b\\d{4}-\\d{2}-\\d{2}\\b")]
+    public static partial Regex TemporaryFolderDateRegex();
 }

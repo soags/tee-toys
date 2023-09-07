@@ -20,7 +20,7 @@ internal class CleanupFilter : ConsoleAppFilter
         foreach (string subDirPath in directryEntries)
         {
             Cleanup(subDirPath);
-        }
+        }        
 
         // Delete empty files within the directry
         string[] fileEntries = Directory.GetFiles(dirPath);
