@@ -10,10 +10,25 @@
 	<PackageOutputPath>./nupkg</PackageOutputPath>
 	<Authors>soags</Authors>
 	<Version>0.1.0</Version>
+	<Title>Tee Toys</Title>
+	<Description>CLI tools to "I'll work with temporary files for now" experience</Description>
+	<PackageProjectUrl>https://github.com/soags/tee-toys</PackageProjectUrl>
+	<PackageTags>temporary,tool,utility</PackageTags>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<RepositoryUrl>https://github.com/soags/tee-toys</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="4.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
