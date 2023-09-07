@@ -1,4 +1,4 @@
-# Tee Toys
+# TeeToys
 
 CLI tools to "I'll work with temporary files for now" experience
 
