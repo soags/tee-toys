@@ -4,12 +4,12 @@ internal class CleanupFilter : ConsoleAppFilter
 {
     public override async ValueTask Invoke(ConsoleAppContext context, Func<ConsoleAppContext, ValueTask> next)
     {
-        // Cleanup the specified directory
+        // フォルダが存在しない場合は作成    
+        Directory.CreateDirectory(Constants.RootDirPath);
+        
+        // 対象フォルダをクリーンアップ
         Cleanup(Constants.RootDirPath);
         Console.WriteLine($"Cleanup completed");
-
-        // Recreate the root directory if it doesn't exist
-        Directory.CreateDirectory(Constants.RootDirPath);
 
         await next(context);
     }
@@ -18,12 +18,13 @@ internal class CleanupFilter : ConsoleAppFilter
     {
         string[] directryEntries = Directory.GetDirectories(dirPath);
 
+        // サブディレクトリを再帰的に処理
         foreach (string subDirPath in directryEntries)
         {
             Cleanup(subDirPath);
         }        
 
-        // Delete empty files within the directry
+        // 空のファイルを削除
         string[] fileEntries = Directory.GetFiles(dirPath);
         foreach(string filePath in fileEntries)
         {
@@ -34,7 +35,7 @@ internal class CleanupFilter : ConsoleAppFilter
             }
         }
 
-        // Delete empty directries
+        // 空のディレクトリを削除
         if (Directory.GetFileSystemEntries(dirPath).Length == 0)
         {
             Directory.Delete(dirPath);
@@ -42,10 +43,12 @@ internal class CleanupFilter : ConsoleAppFilter
         }
     }
 
+    // 削除対象のファイルかどうかを判定
     private static bool IsDeleteTarget(string filePath)
     {
         var fileInfo = new FileInfo(filePath);
 
+        // .txtか.mdで0byte
         if (Constants.TextExtensions.Contains(fileInfo.Extension)
             || Constants.MarkdownExtensions.Contains(fileInfo.Extension))
         {
